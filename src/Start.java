@@ -30,6 +30,8 @@ public class Start {
 			algorithm = new RR();
 		} else if(algorithmName.toLowerCase().equals("mlq")) {
 			algorithm = new MLQ();
+		} else if(algorithmName.toLowerCase().equals("hpf")) {
+			algorithm = new HPF();
 		} else {
 			System.out.println("Invalid Entry");
 			System.exit(0);
@@ -42,9 +44,11 @@ public class Start {
 	private static Workload[] getRandomWorkload(int n) {
 		Random rand1 = new Random();
 		Random rand2 = new Random();
+		Random rand3 = new Random();
         
 	    rand1.setSeed(150);
 	    rand2.setSeed(10);
+	    rand3.setSeed(4);
 	    System.out.println("Setting seed 150 to produce the previous sequence");
         
 		Workload[] arrWorkload = new Workload[n];
@@ -56,6 +60,7 @@ public class Start {
 			workload.arrivalTime = rand1.nextInt(100);
 			workload.executionTime = rand2.nextInt(10);
 			workload.processId = i+1;
+			workload.priority = rand3.nextInt(4) + 1;
 			
 			arrWorkload[i] = workload;
 		}
