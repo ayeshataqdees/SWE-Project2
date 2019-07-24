@@ -5,7 +5,14 @@ public class HPF_P implements Algorithm {
 		int n = arrWorkload.length;
 		int flag[] = new int[n];  // f means it is flag it checks process is completed or not
 		int remainingBurstTime[] = new int[n];  // This is temporary buffer to keep track of remaining execution time for each process
-		
+
+		StatsPerPriority statsPerPriority[] = new StatsPerPriority[4];
+		for(int i = 0; i < 4; i++)
+		{
+			StatsPerPriority workload = new StatsPerPriority();
+			statsPerPriority[i] = workload;
+		}
+
 		System.out.println("\nHPF_P:");
 		System.out.println("\npid  arrival  brust  complete turn waiting response priority");
 		
@@ -65,6 +72,13 @@ public class HPF_P implements Algorithm {
 				   totalTurnAroundTime += currentWorkload.turnAroundTime ;
 				   totalResponseTime +=  currentWorkload.responseTime;
 
+		      	   StatsPerPriority currentPerPrStats = statsPerPriority[currentWorkload.priority - 1];
+ 
+    			   currentPerPrStats.totalWaitingTime += currentWorkload.waitingTime ;
+				   currentPerPrStats.totalTurnAroundTime += currentWorkload.turnAroundTime;
+				   currentPerPrStats.totalResponseTime += currentWorkload.responseTime;				
+				   currentPerPrStats.totalProcess += 1;	
+
 				   flag[current]=1;
 				   totalProcessExecuted++;
 				   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.responseTime + "\t" + currentWorkload.priority) ;
@@ -78,5 +92,15 @@ public class HPF_P implements Algorithm {
 		System.out.println("average turnaround time: "+(totalTurnAroundTime/totalProcessExecuted));    // printing average turnaround time.
 		System.out.println("average response time: "+(totalResponseTime/totalProcessExecuted));    // printing average response time.
 		System.out.println("Total Process Completed: "+(totalProcessExecuted));    // printing Total completed Process.
+
+		int i = 1;
+		System.out.println("\nPriority Avg_WT Avg_TAT Avg_RT Total_Process");
+		for(StatsPerPriority currentStats : statsPerPriority) 
+		{	if (currentStats.totalProcess != 0)
+			{
+			    System.out.println("   " + i + "  \t " + (currentStats.totalWaitingTime/currentStats.totalProcess) + "\t" + (currentStats.totalTurnAroundTime/currentStats.totalProcess) + "\t" + (currentStats.totalResponseTime/currentStats.totalProcess) + "\t" + (currentStats.totalProcess)) ;
+		    }
+		    i++;
+		}
 	}
 }

@@ -80,12 +80,12 @@ public class HPF implements Algorithm {
 		System.out.println("average response time: "+(totalResponseTime/totalProcessExecuted));    // printing average response time.
 		System.out.println("Total Process Completed: "+(totalProcessExecuted));    // printing Total completed Process.
 
-		System.out.println("\nPriority  Avg_WT Avg_TAT  Avg_RT  Total_Process");
+		System.out.println("\nPriority Avg_WT Avg_TAT Avg_RT Total_Process");
 		int i = 1;
 		for(StatsPerPriority currentStats : statsPerPriority) 
 		{	if (currentStats.totalProcess != 0)
 			{
-			    System.out.println(i + "  \t " + (currentStats.totalWaitingTime/currentStats.totalProcess) + "\t" + (currentStats.totalTurnAroundTime/currentStats.totalProcess) + "\t" + (currentStats.totalResponseTime/currentStats.totalProcess) + "\t" + (currentStats.totalProcess)) ;
+			    System.out.println("   " + i + "  \t " + (currentStats.totalWaitingTime/currentStats.totalProcess) + "\t" + (currentStats.totalTurnAroundTime/currentStats.totalProcess) + "\t" + (currentStats.totalResponseTime/currentStats.totalProcess) + "\t" + (currentStats.totalProcess)) ;
 		    }
 		    i++;
 		}
