@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 public class HPF implements Algorithm {
 	public void run(Workload[] arrWorkload)
 	{
@@ -13,19 +12,8 @@ public class HPF implements Algorithm {
 			statsPerPriority[i] = workload;
 		}
 
-		System.out.println("\npid  arrival  brust  complete turn waiting response priority");
-=======
-
-public class HPF implements Algorithm {
-	public void run(Workload[] arrWorkload)
-	{
-		float totalWaitingTime=0,totalTurnAroundTime=0;
-		int n = arrWorkload.length;
-		int flag[] = new int[n];  // f means it is flag it checks process is completed or not
-		
 		System.out.println("\nHPF:");
-		System.out.println("\npid  arrival  brust  complete turn waiting priority");
->>>>>>> ce44913db4935665f7efc4344ec7d84b6668eb15
+		System.out.println("\npid  arrival  brust  complete turn waiting response priority");
 		
 		int systemTime=0, totalProcessExecuted=0;
  	//	boolean a = true;
@@ -38,11 +26,7 @@ public class HPF implements Algorithm {
 		while(true)
 		{
 			int current = n, min=999;
-<<<<<<< HEAD
 			if (totalProcessExecuted == n || systemTime >= 150) // total no of process = completed process loop will be terminated
-=======
-			if (totalProcessExecuted == n) // total no of process = completed process loop will be terminated
->>>>>>> ce44913db4935665f7efc4344ec7d84b6668eb15
 				break;
 			
 			for (int i=0; i<n; i++)
@@ -66,10 +50,7 @@ public class HPF implements Algorithm {
 			{
 				Workload currentWorkload = arrWorkload[current];
 
-<<<<<<< HEAD
 				currentWorkload.responseTime = systemTime - currentWorkload.arrivalTime;
-=======
->>>>>>> ce44913db4935665f7efc4344ec7d84b6668eb15
 				currentWorkload.completionTime = systemTime + currentWorkload.executionTime;
 				systemTime += currentWorkload.executionTime;
 
@@ -77,7 +58,6 @@ public class HPF implements Algorithm {
 			    currentWorkload.waitingTime = currentWorkload.turnAroundTime - currentWorkload.executionTime;          	// waiting time= turnaround time- burst time
 			
 				totalWaitingTime += currentWorkload.waitingTime ;              											 // total waiting time
-<<<<<<< HEAD
 				totalTurnAroundTime += currentWorkload.turnAroundTime ;
 				totalResponseTime += currentWorkload.responseTime;
 
@@ -91,18 +71,10 @@ public class HPF implements Algorithm {
 				flag[current]=1;
 				totalProcessExecuted++;
 				System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.responseTime+ "\t" + currentWorkload.priority) ;
-=======
-				totalTurnAroundTime += currentWorkload.turnAroundTime ;  
-
-				flag[current]=1;
-				totalProcessExecuted++;
-				System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.priority) ;
->>>>>>> ce44913db4935665f7efc4344ec7d84b6668eb15
 			}
 		}
 	
 		// sc.close();
-<<<<<<< HEAD
 		System.out.println("\naverage waiting time: "+ (totalWaitingTime/totalProcessExecuted));     // printing average waiting time.
 		System.out.println("average turnaround time: "+(totalTurnAroundTime/totalProcessExecuted));    // printing average turnaround time.
 		System.out.println("average response time: "+(totalResponseTime/totalProcessExecuted));    // printing average response time.
@@ -117,9 +89,5 @@ public class HPF implements Algorithm {
 		    }
 		    i++;
 		}
-=======
-		System.out.println("\naverage waiting time: "+ (totalWaitingTime/n));     // printing average waiting time.
-		System.out.println("average turnaround time: "+(totalTurnAroundTime/n));    // printing average turnaround time.
->>>>>>> ce44913db4935665f7efc4344ec7d84b6668eb15
 	}
 }

@@ -1,12 +1,4 @@
-
-
 public class HPF_P implements Algorithm {
-	public class StatsPerPriority {
-	int totalWaitingTime;    		// Total Waiting Time
-	int totalTurnAroundTime;     	// Total Turaround Time
-	int totalResponseTime;     	    // Total Response Time
-	int totalProcess;
-}
 	public void run(Workload[] arrWorkload)
 	{
 		float totalWaitingTime=0,totalTurnAroundTime=0,totalResponseTime=0;
@@ -14,6 +6,7 @@ public class HPF_P implements Algorithm {
 		int flag[] = new int[n];  // f means it is flag it checks process is completed or not
 		int remainingBurstTime[] = new int[n];  // This is temporary buffer to keep track of remaining execution time for each process
 		
+		System.out.println("\nHPF_P:");
 		System.out.println("\npid  arrival  brust  complete turn waiting response priority");
 		
 		int systemTime=0, totalProcessExecuted=0;
