@@ -4,7 +4,8 @@ public class FCFS implements Algorithm {
 		float totalWaitingTime=0,totalTurnAroundTime=0;
 		int n = arrWorkload.length;
 		
-		System.out.println("\npid  arrival  brust  complete turn waiting");
+		System.out.println("\nFCFS:");
+		System.out.println("\npid  arrival  brust  complete turn waiting priority");
 		
 		for(Workload currentWorkload : arrWorkload)
 		{
@@ -33,7 +34,7 @@ public class FCFS implements Algorithm {
 			totalWaitingTime += currentWorkload.waitingTime ;              											 // total waiting time
 			totalTurnAroundTime += currentWorkload.turnAroundTime ;               									// total turnaround time
 			
-			System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime ) ;
+			System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.priority) ;
 			i++;
 		}
 

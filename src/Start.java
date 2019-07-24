@@ -7,17 +7,16 @@ import java.io.InputStreamReader;
 public class Start {
 	public final static Random RANDOM = new Random(1);
 	public static void main(String [] args) throws IOException {
-		String algorithmName = new String();
+		String jobs = new String();
 		
-		while(algorithmName.isEmpty()) {
-			System.out.println("\nEnter the Algorithm you want to run :");
+		while(jobs.isEmpty()) {
+			System.out.println("\nEnter the number of jobs you want to run :");
 	
 			BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
-			algorithmName = bufferReader.readLine();
+			jobs = bufferReader.readLine();
 		}
-
-		Algorithm algorithm = null;
 		
+<<<<<<< HEAD
 		if (algorithmName.toLowerCase().equals("fcfs")) {
 			algorithm = new FCFS();
 		} else if (algorithmName.toLowerCase().equals("sjn")) {
@@ -41,6 +40,29 @@ public class Start {
 		
 		Workload[] arrWorkload = getRandomWorkload(50);
 		algorithm.run(arrWorkload);
+=======
+		
+		try {
+			Workload[] arrWorkload = getRandomWorkload(Integer.parseInt(jobs));
+			// algorithm.run(arrWorkload);
+			
+			FCFS fcfs = new FCFS();
+			fcfs.run(arrWorkload);
+			
+			HPF hpf = new HPF();
+			hpf.run(arrWorkload);
+		
+			SJN sjn = new SJN();
+			sjn.run(arrWorkload);
+			
+			SRT srt = new SRT();
+			srt.run(arrWorkload);
+		}
+		catch(Exception ex) {
+			System.out.println("Invalid Entry");
+			System.exit(0);
+		}
+>>>>>>> ce44913db4935665f7efc4344ec7d84b6668eb15
 	}
 
 	private static Workload[] getRandomWorkload(int n) {
@@ -50,7 +72,12 @@ public class Start {
         
 	    rand1.setSeed(150);
 	    rand2.setSeed(10);
+<<<<<<< HEAD
 	    rand3.setSeed(4);
+=======
+	    rand3.setSeed(5);
+	   
+>>>>>>> ce44913db4935665f7efc4344ec7d84b6668eb15
 	    System.out.println("Setting seed 150 to produce the previous sequence");
         
 		Workload[] arrWorkload = new Workload[n];
@@ -60,7 +87,12 @@ public class Start {
 			Workload workload = new Workload();
 			
 			workload.arrivalTime = rand1.nextInt(100);
+<<<<<<< HEAD
 			workload.executionTime = rand2.nextInt(10) + 1;
+=======
+			workload.executionTime = rand2.nextInt(10);
+			workload.priority = rand3.nextInt(5);
+>>>>>>> ce44913db4935665f7efc4344ec7d84b6668eb15
 			workload.processId = i+1;
 			workload.priority = rand3.nextInt(4) + 1;
 			
