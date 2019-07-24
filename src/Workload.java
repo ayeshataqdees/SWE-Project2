@@ -6,7 +6,7 @@ public class Workload {
 	int completionTime;     	// completion times
 	int turnAroundTime;     	// turn around times
 	int waitingTime;   
-	
+	int responseTime;
 	// Remove this
 	int runTime;
 	int priority;

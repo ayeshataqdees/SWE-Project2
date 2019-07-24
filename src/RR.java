@@ -1,4 +1,3 @@
-
 public class RR implements Algorithm {
 	public void run(Workload[] arrWorkload) {
 		

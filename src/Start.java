@@ -32,12 +32,14 @@ public class Start {
 			algorithm = new MLQ();
 		} else if(algorithmName.toLowerCase().equals("hpf")) {
 			algorithm = new HPF();
+		} else if(algorithmName.toLowerCase().equals("hpfp")) {
+			algorithm = new HPF_P();
 		} else {
 			System.out.println("Invalid Entry");
 			System.exit(0);
 		}
 		
-		Workload[] arrWorkload = getRandomWorkload(150);
+		Workload[] arrWorkload = getRandomWorkload(50);
 		algorithm.run(arrWorkload);
 	}
 
@@ -58,7 +60,7 @@ public class Start {
 			Workload workload = new Workload();
 			
 			workload.arrivalTime = rand1.nextInt(100);
-			workload.executionTime = rand2.nextInt(10);
+			workload.executionTime = rand2.nextInt(10) + 1;
 			workload.processId = i+1;
 			workload.priority = rand3.nextInt(4) + 1;
 			

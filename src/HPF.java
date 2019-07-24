@@ -1,11 +1,18 @@
 public class HPF implements Algorithm {
 	public void run(Workload[] arrWorkload)
 	{
-		float totalWaitingTime=0,totalTurnAroundTime=0;
+		float totalWaitingTime=0,totalTurnAroundTime=0,totalResponseTime=0;
 		int n = arrWorkload.length;
 		int flag[] = new int[n];  // f means it is flag it checks process is completed or not
-		
-		System.out.println("\npid  arrival  brust  complete turn waiting priority");
+	
+		StatsPerPriority statsPerPriority[] = new StatsPerPriority[4];
+		for(int i = 0; i < 4; i++)
+		{
+			StatsPerPriority workload = new StatsPerPriority();
+			statsPerPriority[i] = workload;
+		}
+
+		System.out.println("\npid  arrival  brust  complete turn waiting response priority");
 		
 		int systemTime=0, totalProcessExecuted=0;
  	//	boolean a = true;
@@ -18,7 +25,7 @@ public class HPF implements Algorithm {
 		while(true)
 		{
 			int current = n, min=999;
-			if (totalProcessExecuted == n) // total no of process = completed process loop will be terminated
+			if (totalProcessExecuted == n || systemTime >= 150) // total no of process = completed process loop will be terminated
 				break;
 			
 			for (int i=0; i<n; i++)
@@ -42,6 +49,7 @@ public class HPF implements Algorithm {
 			{
 				Workload currentWorkload = arrWorkload[current];
 
+				currentWorkload.responseTime = systemTime - currentWorkload.arrivalTime;
 				currentWorkload.completionTime = systemTime + currentWorkload.executionTime;
 				systemTime += currentWorkload.executionTime;
 
@@ -49,16 +57,36 @@ public class HPF implements Algorithm {
 			    currentWorkload.waitingTime = currentWorkload.turnAroundTime - currentWorkload.executionTime;          	// waiting time= turnaround time- burst time
 			
 				totalWaitingTime += currentWorkload.waitingTime ;              											 // total waiting time
-				totalTurnAroundTime += currentWorkload.turnAroundTime ;  
+				totalTurnAroundTime += currentWorkload.turnAroundTime ;
+				totalResponseTime += currentWorkload.responseTime;
+
+				StatsPerPriority currentPerPrStats = statsPerPriority[currentWorkload.priority - 1];
+
+				currentPerPrStats.totalWaitingTime += currentWorkload.waitingTime ;
+				currentPerPrStats.totalTurnAroundTime += currentWorkload.turnAroundTime;
+				currentPerPrStats.totalResponseTime += currentWorkload.responseTime;				
+				currentPerPrStats.totalProcess += 1;				
 
 				flag[current]=1;
 				totalProcessExecuted++;
-				System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.priority) ;
+				System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.responseTime+ "\t" + currentWorkload.priority) ;
 			}
 		}
 	
 		// sc.close();
-		System.out.println("\naverage waiting time: "+ (totalWaitingTime/n));     // printing average waiting time.
-		System.out.println("average turnaround time: "+(totalTurnAroundTime/n));    // printing average turnaround time.
+		System.out.println("\naverage waiting time: "+ (totalWaitingTime/totalProcessExecuted));     // printing average waiting time.
+		System.out.println("average turnaround time: "+(totalTurnAroundTime/totalProcessExecuted));    // printing average turnaround time.
+		System.out.println("average response time: "+(totalResponseTime/totalProcessExecuted));    // printing average response time.
+		System.out.println("Total Process Completed: "+(totalProcessExecuted));    // printing Total completed Process.
+
+		System.out.println("\nPriority  Avg_WT Avg_TAT  Avg_RT  Total_Process");
+		int i = 1;
+		for(StatsPerPriority currentStats : statsPerPriority) 
+		{	if (currentStats.totalProcess != 0)
+			{
+			    System.out.println(i + "  \t " + (currentStats.totalWaitingTime/currentStats.totalProcess) + "\t" + (currentStats.totalTurnAroundTime/currentStats.totalProcess) + "\t" + (currentStats.totalResponseTime/currentStats.totalProcess) + "\t" + (currentStats.totalProcess)) ;
+		    }
+		    i++;
+		}
 	}
 }
