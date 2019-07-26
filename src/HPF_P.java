@@ -15,7 +15,7 @@ public class HPF_P implements Algorithm {
 		}
 
 		System.out.println("\nHPF_P:");
-		System.out.println("\npid  Priority IdleTime arrival waitTime  Execution complete turnAroundTime");
+		System.out.println("\npid  Priority IdleTime arrival waitTime  Execution complete turnAroundTime ResponseTime");
 		
 		int systemTime=0;
  	//	boolean a = true;
@@ -100,9 +100,7 @@ public class HPF_P implements Algorithm {
 
 				   flag[current]=1;
 				   totalProcessExecuted++;
-				   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime) ;
-
-				//   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.responseTime + "\t" + currentWorkload.priority) ;
+				   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime+ "\t    " + currentWorkload.responseTime) ;
 			    }
 			}
 		}

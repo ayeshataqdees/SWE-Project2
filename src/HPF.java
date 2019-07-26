@@ -14,7 +14,7 @@ public class HPF implements Algorithm {
 		}
 
 		System.out.println("\nHPF:");
-		System.out.println("\npid  Priority IdleTime arrival waitTime  Execution complete turnAroundTime");
+		System.out.println("\npid  Priority IdleTime arrival waitTime  Execution complete turnAroundTime ResponseTime");
 
 		
 		int systemTime=0 ;
@@ -91,7 +91,7 @@ public class HPF implements Algorithm {
 				lastProcessCompletionTime = systemTime;
 				flag[current]=1;
 				totalProcessExecuted++;
-				System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime) ;
+				System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t    " + currentWorkload.responseTime) ;
 			}
 		}
 	
