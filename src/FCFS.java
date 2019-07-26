@@ -8,6 +8,12 @@ public class FCFS implements Algorithm {
 		System.out.println("\nFCFS:");
 		System.out.println("\npid  Priority IdleTime arrival waitTime  startTime Execution complete turnAroundTime");
 		
+		StatsPerPriority statsPerPriority[] = new StatsPerPriority[4];
+		for(int i = 0; i < 4; i++)
+		{
+			StatsPerPriority workload = new StatsPerPriority();
+			statsPerPriority[i] = workload;
+		}
 		
 		int i = 0;
 		
@@ -34,17 +40,27 @@ public class FCFS implements Algorithm {
 				}
 			}	
 			
-			if(currentWorkload.completionTime < MAX_QUANTA) {
-				completedProcess++;
-			}
-			
+
 			currentWorkload.turnAroundTime = currentWorkload.completionTime - currentWorkload.arrivalTime;	      // turnaround time= completion time- arrival time
 			currentWorkload.waitingTime = currentWorkload.turnAroundTime - currentWorkload.executionTime;
 			currentWorkload.startTime = currentWorkload.arrivalTime + currentWorkload.waitingTime;// waiting time= turnaround time- burst time
+			currentWorkload.responseTime = currentWorkload.startTime - currentWorkload.arrivalTime;
+			
+			if(currentWorkload.startTime <= MAX_QUANTA) {
+				completedProcess++;
+			}
+			
 			
 			totalWaitingTime += currentWorkload.waitingTime ;              											 // total waiting time
 			totalTurnAroundTime += currentWorkload.turnAroundTime;          									// total turnaround time
 			totalIdleTime += currentWorkload.idleTime;  
+			
+			StatsPerPriority currentPerPrStats = statsPerPriority[currentWorkload.priority - 1];
+
+			currentPerPrStats.totalWaitingTime += currentWorkload.waitingTime ;
+			currentPerPrStats.totalTurnAroundTime += currentWorkload.turnAroundTime;
+			currentPerPrStats.totalResponseTime += currentWorkload.responseTime;				
+			currentPerPrStats.totalProcess += 1;	
 						
 			System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t "  + currentWorkload.startTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime) ;
 
@@ -60,5 +76,15 @@ public class FCFS implements Algorithm {
 		System.out.println("no of process completed: " + completedProcess);
 		System.out.println("Throughput: " + completedProcess/MAX_QUANTA);
 		System.out.println("total idle time: " + totalIdleTime);
+		
+		System.out.println("\nPriority Avg_WT Avg_TAT Avg_RT Total_Process");
+		int x = 1;
+		for(StatsPerPriority currentStats : statsPerPriority) 
+		{	if (currentStats.totalProcess != 0)
+			{
+			    System.out.println("   " + x + "  \t " + (currentStats.totalWaitingTime/currentStats.totalProcess) + "\t" + (currentStats.totalTurnAroundTime/currentStats.totalProcess) + "\t" + (currentStats.totalResponseTime/currentStats.totalProcess) + "\t" + (currentStats.totalProcess)) ;
+		    }
+		    x++;
+		}
 	}
 }
