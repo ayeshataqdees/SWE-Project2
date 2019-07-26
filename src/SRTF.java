@@ -1,4 +1,4 @@
-public class SRT implements Algorithm {
+public class SRTF implements Algorithm {
 	public void run(Workload[] arrWorkload) {
 		float totalWaitingTime = 0,totalTurnAroundTime = 0, totalResponseTime = 0;
 		int totalIdleTime = 0;
@@ -7,8 +7,8 @@ public class SRT implements Algorithm {
 		int timeQuantam = 0;
 		int MAX_BURST = 99;
 		
-		System.out.print("Shorted remaining time Simulation");
-		System.out.println("\npid	at	et	st	ct	tat	wt	rt");
+		System.out.println("Shorted remaining time Simulation" + n);
+		System.out.println("\npid  Priority arrival waitTime  startTime Execution complete turnAroundTime responseTime");
 		
 		//run until time quonta is less than max quonta for simulation or there is any ongoing process 
 		//no new process will not start once quonta goes beyond max quoant
@@ -22,7 +22,6 @@ public class SRT implements Algorithm {
 				// if process is in ready queue and not completed 
 				if(currentWorkload.arrivalTime <= timeQuantam &&
 						(currentWorkload.executionTime - currentWorkload.runTime) > 0 ) {
-					
 					if (currentWorkload.executionTime - currentWorkload.runTime < minRemaining) {
 						minRemaining = currentWorkload.executionTime - currentWorkload.runTime;
 						minRemainingProcessIndex = processIndex;
@@ -30,7 +29,7 @@ public class SRT implements Algorithm {
 				}
 			}
 			
-			// there is no process is in ready queue for execution.
+			// there is no process in ready queue for execution.
 			if (minRemainingProcessIndex == -1) {
 				totalIdleTime++;
 				continue;
@@ -63,13 +62,17 @@ public class SRT implements Algorithm {
 		}
 			
 		for(Workload currentWorkload : arrWorkload) {
-			System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.startTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.runTime);
+			System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t "  + currentWorkload.startTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime +"\t" +"\t" + currentWorkload.responseTime) ;
+
+			//System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.startTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.responseTime);
 		}	
 		
 		System.out.println("\nTotal process executed to completion "+ completedProcess + " from " + n);
 		System.out.println("\naverage waiting time: "+ (totalWaitingTime/completedProcess));     // printing average waiting time.
 		System.out.println("\naverage turnaround time: "+(totalTurnAroundTime/completedProcess));    // printing average turnaround time.
+		System.out.println("\nno of process completed: " + completedProcess);
 		System.out.println("\naverage response time: "+ (totalResponseTime/completedProcess));
+		System.out.println("\nThroughput: " +((float)completedProcess /(float)timeQuantam));
 		System.out.println("\nTotal idle time: "+ totalIdleTime);
 	}
 }

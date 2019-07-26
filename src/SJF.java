@@ -1,13 +1,34 @@
-public class FCFS implements Algorithm {
-	public void run(Workload[] arrWorkload)
-	{
+import java.util.Arrays;
+import java.util.Comparator;
+
+class SJFSort implements Comparator<Workload> 
+{ 
+    // Sorting in ascending order of of arrivalTime and executionTime
+    public int compare(Workload a, Workload b) 
+    { 
+        int arrivalTimeComp = Integer.compare(a.arrivalTime, b.arrivalTime);
+
+        if (arrivalTimeComp != 0) { // if arrival time is not same, return
+           return arrivalTimeComp;
+        } 
+        
+        // if arrival time is same, compare executionTime and return
+        return Integer.compare(a.executionTime, b.executionTime);
+    } 
+}
+
+
+public class SJF implements Algorithm {
+	public void run(Workload[] arrWorkload) {
+		
+		// sort the work load by arrival time and execution time
+		Arrays.sort(arrWorkload, new SJFSort()); 
+		
+		
 		float totalWaitingTime=0, totalTurnAroundTime=0, totalIdleTime=0, completedProcess=0, totalResponseTime=0;
 		float MAX_QUANTA = 150;
 		int n = arrWorkload.length;
 		boolean quantaReached = false;
-		
-		System.out.println("\nFCFS:");
-		System.out.println("\npid  Priority IdleTime arrival waitTime  startTime Execution complete turnAroundTime ResponseTime");
 		
 		StatsPerPriority statsPerPriority[] = new StatsPerPriority[4];
 		for(int i = 0; i < 4; i++)
@@ -16,8 +37,10 @@ public class FCFS implements Algorithm {
 			statsPerPriority[i] = workload;
 		}
 		
-		int i = 0;
+		System.out.println("\nShortest Job First:");
+		System.out.println("\npid  Priority IdleTime arrival waitTime  startTime Execution complete turnAroundTime totalResponseTime");
 		
+		int i = 0;
 		
 		for(Workload currentWorkload : arrWorkload)
 		{
@@ -35,6 +58,7 @@ public class FCFS implements Algorithm {
 					quantaReached = true;
 				}
 				
+				
 				if(!quantaReached) {
 					if(currentWorkload.arrivalTime > previousWorkload.completionTime)
 					{
@@ -43,6 +67,7 @@ public class FCFS implements Algorithm {
 					}
 					else
 					{
+						
 						currentWorkload.completionTime = previousWorkload.completionTime + currentWorkload.executionTime;
 						currentWorkload.idleTime = 0;
 					}
@@ -59,14 +84,14 @@ public class FCFS implements Algorithm {
 					completedProcess++;
 				}
 				
-				
 				totalWaitingTime += currentWorkload.waitingTime ;              											 // total waiting time
 				totalTurnAroundTime += currentWorkload.turnAroundTime;          									// total turnaround time
-				totalIdleTime += currentWorkload.idleTime;
+				totalIdleTime += currentWorkload.idleTime; 
 				totalResponseTime += currentWorkload.responseTime;
+							
 				
 				StatsPerPriority currentPerPrStats = statsPerPriority[currentWorkload.priority - 1];
-				
+	
 				currentPerPrStats.totalWaitingTime += currentWorkload.waitingTime ;
 				currentPerPrStats.totalTurnAroundTime += currentWorkload.turnAroundTime;
 				currentPerPrStats.totalResponseTime += currentWorkload.responseTime;				
@@ -86,7 +111,7 @@ public class FCFS implements Algorithm {
 		System.out.println("No. of process completed: " + completedProcess);
 		System.out.println("Throughput: " + completedProcess/MAX_QUANTA);
 		System.out.println("Total idle time: " + totalIdleTime);
-		System.out.println("Average Response Time: "+ (totalResponseTime/n));
+		System.out.println("\nAverage Response Time: "+ (totalResponseTime/n));
 		
 		System.out.println("\nPriority Avg_WT Avg_TAT Avg_RT Total_Process");
 		int x = 1;

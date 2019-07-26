@@ -9,7 +9,7 @@ public class RR implements Algorithm {
 		int MAX_QUONTA = 150;
 		
 		System.out.print("Round Robin Simulation");
-		System.out.println("\npid	Arrival	et	st	ct	tat	wt	rt");
+		System.out.println("\npid  Priority  arrival waitTime  startTime Execution complete turnAroundTime responseTime ");
 		
 		//run until time quonta is less than max quonta for simulation or there is any ongoing process 
 		//no new process will not start once quonta goes beyond max quoant
@@ -68,14 +68,16 @@ public class RR implements Algorithm {
 		}
 		
 		for(Workload currentWorkload : arrWorkload) {
-			System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.startTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.runTime);
-		}	
+			System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t "  + currentWorkload.startTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + " \t " +  " \t " + currentWorkload.responseTime) ;
+	}
 		
 		// sc.close();
 		System.out.println("\nTotal process executed to completion "+ completedProcess + " from " + n);
-		System.out.println("\naverage waiting time: "+ (totalWaitingTime/completedProcess));     // printing average waiting time.
-		System.out.println("\naverage turnaround time: "+(totalTurnAroundTime/completedProcess));    // printing average turnaround time.
-		System.out.println("\naverage response time: "+ (totalResponseTime/completedProcess));
+		System.out.println("\nAverage waiting time: "+ (totalWaitingTime/completedProcess));     // printing average waiting time.
+		System.out.println("\nAverage turnaround time: "+(totalTurnAroundTime/completedProcess));// printing average turnaround time.
+		System.out.println("\nNo of process completed: " + completedProcess);
+		System.out.println("\nAverage response time: "+ (totalResponseTime/completedProcess));
+		System.out.println("\nThroughput: " + ((float)completedProcess/(float)timeQuantam));
 		System.out.println("\nTotal idle time: "+ totalIdleTime);
 	}
 }
