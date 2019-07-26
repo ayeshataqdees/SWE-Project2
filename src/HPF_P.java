@@ -14,7 +14,7 @@ public class HPF_P implements Algorithm {
 		}
 
 		System.out.println("\nHPF_P:");
-		System.out.println("\npid  arrival  brust  complete turn waiting response priority");
+		System.out.println("\npid  Priority  Arrival  Execution  Waiting  Complete  turnAroundTime  Response");
 		
 		int systemTime=0, totalProcessExecuted=0;
  	//	boolean a = true;
@@ -81,7 +81,7 @@ public class HPF_P implements Algorithm {
 
 				   flag[current]=1;
 				   totalProcessExecuted++;
-				   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.responseTime + "\t" + currentWorkload.priority) ;
+				   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t" + currentWorkload.responseTime ) ;
 			    }
 			}
 		}
