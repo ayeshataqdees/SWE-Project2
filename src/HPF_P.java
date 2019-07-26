@@ -1,7 +1,8 @@
 public class HPF_P implements Algorithm {
 	public void run(Workload[] arrWorkload)
 	{
-		float totalWaitingTime=0,totalTurnAroundTime=0,totalResponseTime=0;
+		float totalWaitingTime=0,totalTurnAroundTime=0,totalResponseTime=0,totalProcessExecuted=0;
+		int lastProcessCompletionTime=0,totalIdleTime=0;
 		int n = arrWorkload.length;
 		int flag[] = new int[n];  // f means it is flag it checks process is completed or not
 		int remainingBurstTime[] = new int[n];  // This is temporary buffer to keep track of remaining execution time for each process
@@ -14,9 +15,9 @@ public class HPF_P implements Algorithm {
 		}
 
 		System.out.println("\nHPF_P:");
-		System.out.println("\npid  Priority  Arrival  Execution  Waiting  Complete  turnAroundTime  Response");
+		System.out.println("\npid  Priority IdleTime arrival waitTime  Execution complete turnAroundTime ResponseTime");
 		
-		int systemTime=0, totalProcessExecuted=0;
+		int systemTime=0;
  	//	boolean a = true;
  
 		for(int i=0; i<n; i++)
@@ -52,6 +53,22 @@ public class HPF_P implements Algorithm {
 			{
 				Workload currentWorkload = arrWorkload[current];
 
+				if(lastProcessCompletionTime == 0)
+				{	
+					currentWorkload.idleTime = currentWorkload.arrivalTime;
+				}
+				else
+				{
+					if(currentWorkload.arrivalTime > lastProcessCompletionTime)
+					{
+						currentWorkload.idleTime = currentWorkload.arrivalTime - lastProcessCompletionTime;
+					}
+					else
+					{
+						currentWorkload.idleTime = 0;
+					}
+				}
+
 				if (remainingBurstTime[current] == currentWorkload.executionTime)
 				{
 					currentWorkload.responseTime = systemTime - currentWorkload.arrivalTime;
@@ -61,6 +78,7 @@ public class HPF_P implements Algorithm {
 				currentWorkload.completionTime = systemTime + 1;
 				systemTime += 1;
 				remainingBurstTime[current] -= 1 ;
+				lastProcessCompletionTime = systemTime;
 
 				// When remaining time is zero for current process, we can mark this process as completed and calculate the statistics
 				if (remainingBurstTime[current] == 0)
@@ -71,6 +89,7 @@ public class HPF_P implements Algorithm {
 				   totalWaitingTime += currentWorkload.waitingTime ;              											 // total waiting time
 				   totalTurnAroundTime += currentWorkload.turnAroundTime ;
 				   totalResponseTime +=  currentWorkload.responseTime;
+				   totalIdleTime += currentWorkload.idleTime;
 
 		      	   StatsPerPriority currentPerPrStats = statsPerPriority[currentWorkload.priority - 1];
  
@@ -81,7 +100,7 @@ public class HPF_P implements Algorithm {
 
 				   flag[current]=1;
 				   totalProcessExecuted++;
-				   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "  \t " + currentWorkload.arrivalTime + "\t" + currentWorkload.executionTime + "\t"  + currentWorkload.waitingTime + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t" + currentWorkload.responseTime ) ;
+				   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime+ "\t    " + currentWorkload.responseTime) ;
 			    }
 			}
 		}
@@ -92,6 +111,8 @@ public class HPF_P implements Algorithm {
 		System.out.println("average turnaround time: "+(totalTurnAroundTime/totalProcessExecuted));    // printing average turnaround time.
 		System.out.println("average response time: "+(totalResponseTime/totalProcessExecuted));    // printing average response time.
 		System.out.println("Total Process Completed: "+(totalProcessExecuted));    // printing Total completed Process.
+		System.out.println("Throughput: " + (totalProcessExecuted/systemTime));
+		System.out.println("total idle time: " + totalIdleTime);
 
 		int i = 1;
 		System.out.println("\nPriority Avg_WT Avg_TAT Avg_RT Total_Process");
