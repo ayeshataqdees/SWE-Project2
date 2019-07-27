@@ -28,6 +28,12 @@ public class Start {
 	      case "hpfp":
 	    	  isValid = true;
 	        break;
+	      case "hpfage":
+	    	  isValid = true;
+	        break;
+	      case "hpfpage":
+	    	  isValid = true;
+	        break;
 	    }
 		
 		return isValid;
@@ -50,7 +56,9 @@ public class Start {
 			System.out.println("Shortest Run Time First: SRTF");
 			System.out.println("Highest Priority First - Non-Preemptive: HPF");
 			System.out.println("Highest Priority First - Preemptive: HPFP");
-			
+			System.out.println("Highest Priority First AGE - Non-Preemptive: HPFAGE");
+			System.out.println("Highest Priority First AGE - Preemptive: HPFPAGE");
+
 			BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
 			algorithm = bufferReader.readLine();
 			
@@ -118,6 +126,14 @@ public class Start {
 		      case "hpfp":
 		    	  HPF_P hpfp = new HPF_P();
 				  hpfp.run(arrWorkload);
+		        break;
+		      case "hpfage":
+		    	  HPF_AGE hpfage = new HPF_AGE();
+				  hpfage.run(arrWorkload);
+		        break;
+		      case "hpfpage":
+		    	  HPFP_AGE hpfpage = new HPFP_AGE();
+				  hpfpage.run(arrWorkload);
 		        break;
 		    }
 		}
