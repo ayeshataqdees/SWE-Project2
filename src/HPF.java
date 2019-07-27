@@ -1,7 +1,7 @@
 public class HPF implements Algorithm {
 	public void run(Workload[] arrWorkload)
 	{
-		float totalWaitingTime=0,totalTurnAroundTime=0,totalResponseTime=0,totalProcessExecuted=0;
+		float totalWaitingTime=0,totalTurnAroundTime=0,totalResponseTime=0,totalProcessExecuted=0,completeProcess=0;
 		int lastProcessCompletionTime=0,totalIdleTime=0;
 		int n = arrWorkload.length;
 		int flag[] = new int[n];  // f means it is flag it checks process is completed or not
@@ -14,7 +14,7 @@ public class HPF implements Algorithm {
 		}
 
 		System.out.println("\nHPF:");
-		System.out.println("\npid  Priority IdleTime arrival waitTime  Execution complete turnAroundTime ResponseTime");
+		System.out.println("\npid  Priority IdleTime arrival waitTime  startTime Execution complete turnAroundTime ResponseTime");
 
 		
 		int systemTime=0 ;
@@ -28,9 +28,10 @@ public class HPF implements Algorithm {
 		while(true)
 		{
 			int current = n, min=999;
-			if (totalProcessExecuted == n || systemTime >= 150) // total no of process = completed process loop will be terminated
+			if (completeProcess == n ) // total no of process = completed process loop will be terminated
 				break;
 			
+
 			for (int i=0; i<n; i++)
 			{
 				Workload tempWorkload = arrWorkload[i];
@@ -52,7 +53,8 @@ public class HPF implements Algorithm {
 			{
 				Workload currentWorkload = arrWorkload[current];
 
-
+			if (systemTime < 150)
+			{
 				if(totalProcessExecuted == 0)
 				{	
 					currentWorkload.idleTime = currentWorkload.arrivalTime;
@@ -69,6 +71,7 @@ public class HPF implements Algorithm {
 					}
 				}
 
+				currentWorkload.startTime = systemTime;
 				currentWorkload.responseTime = systemTime - currentWorkload.arrivalTime;
 				currentWorkload.completionTime = systemTime + currentWorkload.executionTime;
 				systemTime += currentWorkload.executionTime;
@@ -89,11 +92,14 @@ public class HPF implements Algorithm {
 				currentPerPrStats.totalProcess += 1;				
 
 				lastProcessCompletionTime = systemTime;
-				flag[current]=1;
 				totalProcessExecuted++;
-				System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t    " + currentWorkload.responseTime) ;
 			}
-		}
+				flag[current]=1;
+				completeProcess++;
+				System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t "  + currentWorkload.startTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t      " + currentWorkload.responseTime) ;
+
+			}
+		}	
 	
 		// sc.close();
 		System.out.println("\naverage waiting time: "+ (totalWaitingTime/totalProcessExecuted));     // printing average waiting time.

@@ -15,7 +15,7 @@ public class HPF_P implements Algorithm {
 		}
 
 		System.out.println("\nHPF_P:");
-		System.out.println("\npid  Priority IdleTime arrival waitTime  Execution complete turnAroundTime ResponseTime");
+		System.out.println("\npid  Priority IdleTime arrival waitTime  startTime Execution complete turnAroundTime ResponseTime");
 		
 		int systemTime=0;
  	//	boolean a = true;
@@ -72,6 +72,7 @@ public class HPF_P implements Algorithm {
 				if (remainingBurstTime[current] == currentWorkload.executionTime)
 				{
 					currentWorkload.responseTime = systemTime - currentWorkload.arrivalTime;
+					currentWorkload.startTime = systemTime;
 				}
 
 				// Only one quantum is executed at a time
@@ -100,7 +101,7 @@ public class HPF_P implements Algorithm {
 
 				   flag[current]=1;
 				   totalProcessExecuted++;
-				   System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime+ "\t    " + currentWorkload.responseTime) ;
+			       System.out.println(currentWorkload.processId + "  \t " + currentWorkload.priority + "\t" + currentWorkload.idleTime + "\t" + currentWorkload.arrivalTime + "\t" + currentWorkload.waitingTime + "  \t "  + currentWorkload.startTime + "  \t " + "\t" + currentWorkload.executionTime  + "\t" + currentWorkload.completionTime + "\t" + currentWorkload.turnAroundTime + "\t      " + currentWorkload.responseTime) ;
 			    }
 			}
 		}
